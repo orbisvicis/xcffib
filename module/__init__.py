@@ -329,6 +329,9 @@ class Cookie(object):
             "Request is not void and checked")
         self.conn.request_check(self.sequence)
 
+    def discard_reply(self):
+        return self.conn.discard_reply(self.sequence)
+
 
 class VoidCookie(Cookie):
 
@@ -682,6 +685,10 @@ class Connection(object):
     @ensure_connected
     def send_request(self, flags, xcb_parts, xcb_req):
         return lib.xcb_send_request(self._conn, flags, xcb_parts, xcb_req)
+
+    @ensure_connected
+    def discard_reply(self, sequence):
+        return lib.xcb_discard_reply(self._conn, sequence)
 
 
 # More backwards compatibility
